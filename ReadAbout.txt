@@ -1,0 +1,37 @@
+Dear Responsible,
+This test has been implemented using Laravel framework.
+
+It contains two major files named 
+  1.web.php as a router in MVC design pattern
+  2.GeoLocIPAndWeather.php as a controller for providing 2 end-point web services whose output will be as a json
+
+
+A.Before running , you would copy the content of lsapp in C:\xampp\htdocs or a proper path
+if you are using xampp 
+
+If you want to deploy it based on other solutions like dockerizing it , it will be different
+
+B.You should run "composer install" to download all required packages .
+  After this command , you will have node_modules in the root folder (lsapp)
+
+C.You would start Apache web server.
+
+
+Some example
+
+1.http://localhost/lsapp/public/geolocation?service=api-ip
+  {"ip":"142.118.154.126","geo":{"service":"api-ip","city":"Montreal","region":"Quebec","country":"Canada"}}
+
+2.http://localhost/lsapp/public/geolocation/209.78.192.10?service=api-ip
+  {"ip":"209.78.192.10","geo":{"service":"api-ip","city":"Cypress","region":"California","country":"United States"}}
+
+3.http://localhost/lsapp/public/geolocation?service=freegeoip
+  {"ip":"142.118.154.126","geo":{"service":"freegeoip","city":"undefined","region":"undefined","country":"Canada"}}
+
+4.http://localhost/lsapp/public/weather/109.71.192.10
+  {"ip":"109.71.192.10","city":"Moscow","temperature":{"current":17,"low":16,"high":18},"wind":{"speed":2,"direction":100}}
+
+
+
+I would appreciate if you send me your opinions
+Thanks so much
