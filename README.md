@@ -84,6 +84,7 @@ GET /weather/8.8.8.8
 Feel free to use any technology you want or add features you think would make it better.
 
 We're looking for developers who:
+* make good use of object-oriented programming using classes and services
 * are comfortable relying on high-quality existing packages and knowing when is the appropriate time to use them
 * take pride in their creation instead of rushing to get it through the door
 * commit often and showcase work through a descriptive commit history
