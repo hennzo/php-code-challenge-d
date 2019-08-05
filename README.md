@@ -92,3 +92,44 @@ We're looking for developers who:
 Bonus points if you cover unit and/or functional testing.
 
 Happy coding!
+
+
+### Installation
+
+For this task, I use Lumen Laravel framework.
+Lumen requirements are satisfied by [Laravel Homestead](https://laravel.com/docs/5.8/homestead) virtual machine.
+
+However, if you are not using Homestead, you will need to make sure your server meets the following requirements:
+
+* PHP >= 7.1.3
+* OpenSSL PHP Extension
+* PDO PHP Extension
+* Mbstring PHP Extension
+
+### Serving Your Application
+
+To serve your project locally, you may use:
+
+* [Laravel Homestead](https://laravel.com/docs/5.8/homestead) virtual machine.
+
+*  the built-in PHP development server:
+
+```
+cd path/to/your/project
+php -S localhost:8000 -t public
+```
+
+### Configuration
+
+It's time to configure your application.
+
+* After cloning this project, you need to duplicate `.env_example` and name it `.env`
+* Open `.env` file, and specify the following values:
+
+```
+APP_KEY=random string
+APP_URL=
+FREEGEOIP=free geoip access key api
+OPENWEATHERMAP_ACCESS_KEY=openweathermap access key api
+
+```
