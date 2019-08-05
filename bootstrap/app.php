@@ -26,6 +26,11 @@ $app = new Laravel\Lumen\Application(
 // $app->withEloquent();
 
 /*
+| Load geolocation config.
+*/
+$app->configure('geolocation');
+
+/*
 |--------------------------------------------------------------------------
 | Register Container Bindings
 |--------------------------------------------------------------------------

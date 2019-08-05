@@ -14,3 +14,7 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->get('/geolocation[/{ip_address}]', 'GeolocationController@show');
+
+$router->get('/weather[/{ip_address}]', 'WeatherController@show');
