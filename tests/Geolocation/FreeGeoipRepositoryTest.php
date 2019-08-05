@@ -11,7 +11,10 @@ class FreeGeoipRepositoryTest extends TestCase
     */
    protected function getFreeGeoipRepository($client)
    {
-      return new FreeGeoipRepository($client);
+      return new FreeGeoipRepository(
+         $client,
+         config('geolocation.services.'.FreeGeoipRepository::NAME)['host']
+      );
    }
 
    /**
@@ -30,7 +33,7 @@ class FreeGeoipRepositoryTest extends TestCase
                        ->getMock();
 
       $ip_address = '127.0.0.1';
-      $endpoint = rtrim(config('geolocation.services.'.FreeGeoipRepository::NAME)['host'])."/$ip_address";
+      $endpoint = rtrim(config('geolocation.services.'.FreeGeoipRepository::NAME)['host'], '/')."/$ip_address";
       $result = [
          'city' => 'Montreal',
          'region_code' => 'QC',
@@ -53,9 +56,8 @@ class FreeGeoipRepositoryTest extends TestCase
 
       $service = $this->getFreeGeoipRepository($client);
 
-
       $this->assertEquals(
-         $service->getInfo($endpoint),
+         $service->getInfo($ip_address),
          [
             'ip' => $result['ip'],
             'geo' => [

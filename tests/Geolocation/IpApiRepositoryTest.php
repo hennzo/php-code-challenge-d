@@ -11,7 +11,10 @@ class IpApiRepositoryTest extends TestCase
     */
    protected function getIpApiRepository($client)
    {
-      return new IpApiRepository($client);
+      return new IpApiRepository(
+         $client,
+         config('geolocation.services.'.IpApiRepository::NAME)['host']
+      );
    }
 
    /**
@@ -30,7 +33,7 @@ class IpApiRepositoryTest extends TestCase
                        ->getMock();
 
       $ip_address = '127.0.0.1';
-      $endpoint = rtrim(config('geolocation.services.'.IpApiRepository::NAME)['host'])."/$ip_address";
+      $endpoint = rtrim(config('geolocation.services.'.IpApiRepository::NAME)['host'], '/')."/$ip_address";
       $result = [
          'city' => 'Montreal',
          'region' => 'QC',
@@ -53,9 +56,8 @@ class IpApiRepositoryTest extends TestCase
 
       $service = $this->getIpApiRepository($client);
 
-
       $this->assertEquals(
-         $service->getInfo($endpoint),
+         $service->getInfo($ip_address),
          [
             'ip' => $result['query'],
             'geo' => [

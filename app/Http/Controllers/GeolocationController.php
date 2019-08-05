@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use App\Repositories\Geolocation\GeolocationFactory;
 
 class GeolocationController extends Controller
 {
@@ -14,6 +15,9 @@ class GeolocationController extends Controller
     */
    public function show(Request $request, $ip_address = null)
    {
+      $factory = new GeolocationFactory(new \GuzzleHttp\Client());
+      $service = $factory->build($request);
+
       if (!$ip_address) {
          $ip_address = $this->getClientIpAddress($request);
       }
@@ -23,18 +27,7 @@ class GeolocationController extends Controller
          return response()->json(['error' => 'No Ip Address found'], 422);
       }
 
-      //Use Default geolocation service if not specify
-      $service_name = $request->get('service', config('geolocation.default'));
-
-      //Use Default geolocation service if service specified does not exist
-      if (!$config = config('geolocation.services.'.$service_name)) {
-         $config = config('geolocation.services.'.config('geolocation.default'));
-      }
-
-      $service = new $config['handler'](new \GuzzleHttp\Client());
-      $endpoint = rtrim($config['host'], '/')."/{$ip_address}";
-
-      return response()->json($service->getInfo($endpoint));
+      return response()->json($service->getInfo($ip_address));
    }
 
    /**
