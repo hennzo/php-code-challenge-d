@@ -1,17 +1,17 @@
 <?php
 
-use App\Repositories\Geolocation\IpApiRepository;
+use App\Repositories\Geolocation\FreeGeoipRepository;
 
-class IpApiRepositoryTest extends TestCase
+class FreeGeoipRepositoryTest extends TestCase
 {
    /**
-    * Create an IpApiRepository instance
+    * Create an FreeGeoipRepository instance
     *
-    * @return App\Repositories\Geolocation\IpApiRepository
+    * @return App\Repositories\Geolocation\FreeGeoipRepository
     */
-   protected function getIpApiRepository($client)
+   protected function getFreeGeoipRepository($client)
    {
-      return new IpApiRepository($client);
+      return new FreeGeoipRepository($client);
    }
 
    /**
@@ -30,13 +30,13 @@ class IpApiRepositoryTest extends TestCase
                        ->getMock();
 
       $ip_address = '127.0.0.1';
-      $endpoint = rtrim(config('geolocation.services.'.IpApiRepository::NAME)['host'])."/$ip_address";
+      $endpoint = rtrim(config('geolocation.services.'.FreeGeoipRepository::NAME)['host'])."/$ip_address";
       $result = [
          'city' => 'Montreal',
-         'region' => 'QC',
-         'regionName' => 'Quebec',
-         'country' => 'Canada',
-         'query' => $ip_address,
+         'region_code' => 'QC',
+         'region_name' => 'Quebec',
+         'country_name' => 'Canada',
+         'ip' => $ip_address,
          'status' => 'success'
       ];
 
@@ -51,18 +51,18 @@ class IpApiRepositoryTest extends TestCase
                ->method('getBody')
                ->willReturn(json_encode($result));
 
-      $service = $this->getIpApiRepository($client);
+      $service = $this->getFreeGeoipRepository($client);
 
 
       $this->assertEquals(
          $service->getInfo($endpoint),
          [
-            'ip' => $result['query'],
+            'ip' => $result['ip'],
             'geo' => [
-               'service' => IpApiRepository::NAME,
+               'service' => FreeGeoipRepository::NAME,
                'city' => $result['city'],
-               'region' => $result['regionName'],
-               'country' => $result['country']
+               'region' => $result['region_name'],
+               'country' => $result['country_name']
             ]
          ]
       );

@@ -22,6 +22,7 @@ class IpApiRepository implements GeolocationInterface
    {
       $response = $this->client->get($endpoint);
       $data = json_decode($response->getBody());
+      
       return [
          'ip' => $data->query,
          'geo' => [
