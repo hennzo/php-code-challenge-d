@@ -22,6 +22,13 @@ class IpApiRepository implements GeolocationInterface
    {
       $data = $this->fetch($query);
 
+      if ($this->failed($data->status)) {
+         return [
+            'ip' => $data->query,
+            'message' => $data->message
+         ];
+      }
+
       return [
          'ip' => $data->query,
          'geo' => [

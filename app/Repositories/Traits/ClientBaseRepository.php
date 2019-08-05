@@ -26,4 +26,9 @@ trait ClientBaseRepository
 
       return $data;
    }
+
+   protected function failed($status = 'fail')
+   {
+      return $status == 'fail';
+   }
 }
