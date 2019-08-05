@@ -67,9 +67,9 @@ class OpenWeatherMapTest extends TestCase
          [
             'city' => $result['name'],
             'temperature' => [
-               'current' => $result['main']['temp'],
-               'low' => $result['main']['temp_min'],
-               'high' => $result['main']['temp_max']
+               'current' => $this->fahrenheitToCelcius($result['main']['temp']),
+               'low' => $this->fahrenheitToCelcius($result['main']['temp_min']),
+               'high' => $this->fahrenheitToCelcius($result['main']['temp_max'])
             ],
             'wind' => [
                'speed' => $result['wind']['speed'],
@@ -77,5 +77,10 @@ class OpenWeatherMapTest extends TestCase
             ]
          ]
       );
+   }
+
+   protected function fahrenheitToCelcius($temperature = 0)
+   {
+      return round(($temperature - 32) * 5/9);
    }
 }
