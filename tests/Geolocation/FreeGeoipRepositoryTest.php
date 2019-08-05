@@ -5,7 +5,7 @@ use App\Repositories\Geolocation\FreeGeoipRepository;
 class FreeGeoipRepositoryTest extends TestCase
 {
    /**
-    * Create an FreeGeoipRepository instance
+    * Create a FreeGeoipRepository instance
     *
     * @return App\Repositories\Geolocation\FreeGeoipRepository
     */

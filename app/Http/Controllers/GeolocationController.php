@@ -4,10 +4,17 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use App\Repositories\Geolocation\GeolocationFactory;
+use App\Repositories\Geolocation\GeolocationFactoryInterface;
 
 class GeolocationController extends Controller
 {
+   protected $factory = null;
+
+   public function __construct(GeolocationFactoryInterface $factory)
+   {
+      $this->factory = $factory;
+   }
+
    /**
     * Retrieve Geolocation informations.
     *
@@ -15,8 +22,7 @@ class GeolocationController extends Controller
     */
    public function show(Request $request, $ip_address = null)
    {
-      $factory = new GeolocationFactory(new \GuzzleHttp\Client());
-      $service = $factory->build($request);
+      $service = $this->factory->build($request);
 
       if (!$ip_address) {
          $ip_address = $this->getClientIpAddress($request);

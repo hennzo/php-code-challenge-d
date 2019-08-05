@@ -11,7 +11,7 @@ use App\Repositories\Geolocation\IpApiRepository;
  *
  * @package App\Repositories\Geolocation
  */
-class GeolocationFactory
+class GeolocationFactory implements GeolocationFactoryInterface
 {
    protected $client = null;
 
@@ -21,7 +21,7 @@ class GeolocationFactory
    }
 
    /**
-    * @see BaseFactory::build()
+    * @see GeolocationFactoryInterface::build()
     */
    public function build(Request $request)
    {
