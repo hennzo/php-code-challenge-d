@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Geolocation;
 
-use GuzzleHttp\ClientInterface;
+use App\Repositories\Traits\ClientBaseRepository;
 
 /**
  * class FreeGeoipRepository
@@ -11,30 +11,16 @@ use GuzzleHttp\ClientInterface;
  */
 class FreeGeoipRepository implements GeolocationInterface
 {
+   use ClientBaseRepository;
+
    const NAME = 'freegeoip';
-
-   protected $client = null;
-
-   protected $host = '';
-
-   public function __construct(ClientInterface $client, $host = '')
-   {
-      $this->client = $client;
-      $this->host = $host;
-   }
 
    /*
     * @see GeolocationInterface::getInfo()
     */
    public function getInfo($query)
    {
-      $endpoint = rtrim($this->host, '/')."/{$query}";
-
-      $response = $this->client->get($endpoint, [
-         'query' => ['access_key' => $this->getAccessKey()]
-      ]);
-
-      $data = json_decode($response->getBody());
+      $data = $this->fetch($query);
 
       return [
          'ip' => $data->ip,
@@ -44,6 +30,13 @@ class FreeGeoipRepository implements GeolocationInterface
             'region' => $data->region_name,
             'country' => $data->country_name
          ]
+      ];
+   }
+
+   protected function getOptions()
+   {
+      return [
+         'query' => ['access_key' => $this->getAccessKey()]
       ];
    }
 

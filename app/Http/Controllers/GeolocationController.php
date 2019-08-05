@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Geolocation\GeolocationFactoryInterface;
+use App\Http\Controllers\Traits\IpAddressValidator;
 
 class GeolocationController extends Controller
 {
+   use IpAddressValidator;
+
    protected $factory = null;
 
    public function __construct(GeolocationFactoryInterface $factory)
@@ -22,18 +25,14 @@ class GeolocationController extends Controller
     */
    public function show(Request $request, $ip_address = null)
    {
-      $service = $this->factory->build($request);
-
-      if (!$ip_address) {
-         $ip_address = $this->getClientIpAddress($request);
+      try {
+         $service = $this->factory->build($request);
+         
+         $ip_address = $this->validateIpAddress($request, $ip_address);
+         return response()->json($service->getInfo($ip_address));
+      } catch (\Exception $e) {
+         return response()->json(['error' => $e->getMessage()], 422);
       }
-
-      //Return Error message if not Ip Address
-      if (!$ip_address) {
-         return response()->json(['error' => 'No Ip Address found'], 422);
-      }
-
-      return response()->json($service->getInfo($ip_address));
    }
 
    /**

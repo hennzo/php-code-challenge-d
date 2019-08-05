@@ -31,6 +31,11 @@ $app = new Laravel\Lumen\Application(
 $app->configure('geolocation');
 
 /*
+| Load weather config.
+*/
+$app->configure('weather');
+
+/*
 |--------------------------------------------------------------------------
 | Register Container Bindings
 |--------------------------------------------------------------------------
@@ -85,6 +90,7 @@ $app->singleton(
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\GeolocationServiceProvider::class);
+$app->register(App\Providers\WeatherServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Geolocation;
 
-use GuzzleHttp\ClientInterface;
+use App\Repositories\Traits\ClientBaseRepository;
 
 /**
  * class IpApiRepository
@@ -11,27 +11,16 @@ use GuzzleHttp\ClientInterface;
  */
 class IpApiRepository implements GeolocationInterface
 {
+   use ClientBaseRepository;
+
    const NAME = 'ip-api';
-
-   protected $client = null;
-
-   protected $host = '';
-
-   public function __construct(ClientInterface $client, $host = '')
-   {
-      $this->client = $client;
-      $this->host = $host;
-   }
 
    /*
     * @see GeolocationInterface::getInfo()
     */
    public function getInfo($query)
    {
-      $endpoint = rtrim($this->host, '/')."/{$query}";
-
-      $response = $this->client->get($endpoint);
-      $data = json_decode($response->getBody());
+      $data = $this->fetch($query);
 
       return [
          'ip' => $data->query,
@@ -42,5 +31,10 @@ class IpApiRepository implements GeolocationInterface
             'country' => $data->country
          ]
       ];
+   }
+
+   protected function getOptions()
+   {
+      return [];
    }
 }
